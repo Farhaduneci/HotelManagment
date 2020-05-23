@@ -2,10 +2,10 @@
 #include <fstream>
 #include <string>
 #include <windows.h>
-#include <dir.h>
+#include <io.h>
 #include <limits>
-#include "./Classes/User.cpp"
-#include "./Classes/Admin.cpp"
+#include "./Classes/User.h"
+#include "./Classes/Admin.h"
 
 using namespace std;
 
@@ -32,7 +32,7 @@ BOOL WINAPI MoveWindow(HWND hWnd, int NewWidth, int NewHeight, int WindowWidth, 
 
 
  // Create a Default Admin
-    Admin admin("Farhad", "Uneci", "3861167190", "19/03/79", true);
+    Admin admin("Farhad", "Uneci", "0000000000", "19/03/79", true);
 
 int main() {
     // Centralizing Console
@@ -114,10 +114,7 @@ int getChoise(int min, int max) {
 }
 
 void adminMenu() {
-    admin.addUser(
-        User("Sina", "Uneci", "", "", false)
-    );
-    //showMenu(1);
+    showMenu(1);
 }
 
 void standard() {
@@ -128,6 +125,4 @@ void standard() {
 
 void createFolders() {
     mkdir("Users");
-    mkdir("Users/Standard");
-    mkdir("Users/Admin");
 }

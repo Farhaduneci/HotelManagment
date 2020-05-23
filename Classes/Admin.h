@@ -1,13 +1,16 @@
 #include <string>
-#include "User.h"
 
 using namespace std;
 
 class Admin: public User {
 public:
-    Admin(string first, string last, string nCode, string bDay, bool pos);
+    Admin(string first, string last, string nCode, string bDay, bool pos):
+    User(first, last, nCode, bDay, pos) {}
     
-    bool addUser(User user);
+    bool addUser(User user) {
+        user.saveToFile();
+        return true;
+    }
 
-    virtual ~Admin();
+    
 };
