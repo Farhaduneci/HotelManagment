@@ -17,12 +17,15 @@ public:
     }
 
     bool saveToFile() {
-        string fileName = (this -> nCode).append(".user");
+        string userCode = this -> nCode;
+        string fileName = (userCode).append(".user");
         ofstream fileStream;
         try {
             fileStream.open("./Users/" + fileName); // open the file, or create it.
-            // TODO
-            fileStream << "SAVED NOW";
+            fileStream << "Name: " << this -> first << endl;
+            fileStream << "Last: " << this -> last << endl;
+            fileStream << "nCode: " << this -> nCode << endl;
+            fileStream << "bDay: " << this -> bDay << endl;
             fileStream.close(); // We always need to close our files.
         } catch (const exception& ex) {
             cerr << ex.what() << endl;

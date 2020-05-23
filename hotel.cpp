@@ -1,7 +1,9 @@
-#include <iostream>
+#include <iostream.h>
 #include <fstream>
+#include <stdio.h> // Password Input
 #include <string>
 #include <windows.h>
+#include <functional>
 #include <io.h>
 #include <limits>
 #include "./Classes/User.h"
@@ -14,6 +16,7 @@ int getChoise(int, int);
 void adminMenu();
 void standard();
 void createFolders();
+bool checkPass();
 
 /***********************- POSITIONNING THE CONSOLE WINDOW -*******************************/
 //Finding the user's screen resolution
@@ -32,7 +35,7 @@ BOOL WINAPI MoveWindow(HWND hWnd, int NewWidth, int NewHeight, int WindowWidth, 
 
 
  // Create a Default Admin
-    Admin admin("Farhad", "Uneci", "0000000000", "19/03/79", true);
+Admin admin("Farhad", "Uneci", "0000000000", "19/03/79", true);
 
 int main() {
     // Centralizing Console
@@ -44,6 +47,12 @@ int main() {
     // Save Admin Info
     admin.saveToFile();
     
+    if (!checkPass()) {
+        cout << "PASSWORD IS WRONG, TRY AGAIN, APP WILL CLOSE..." << endl;
+        system("pause");
+        exit(10);
+    }
+
     int choise;
     while(true) {
         choise = showMenu(0);
@@ -59,6 +68,43 @@ int main() {
     }
 }
 
+bool checkPass() {
+    #define ENTER 13
+    #define TAB 9
+    #define BKSP 8
+
+    char pwd[100];
+
+	int i = 0;
+	char ch;
+
+	printf("Enter your password. Hit ENTER to confirm: ");
+
+	while(true){
+		ch = getch();	//get key
+
+		if(ch == ENTER || ch == TAB){
+			pwd[i] = '\0';
+			break;
+		}else if(ch == BKSP){
+			if(i > 0){
+				i--;
+				printf("\b \b");		//for backspace
+			}
+		}else{
+			pwd[i++] = ch;
+			printf("* \b");				//to replace password character with *
+		}
+	}
+
+	string passHash;
+    hash<string> hash;
+    ifstream passFile("pass.pwd"); getline (passFile, passHash); passFile.close();
+    if(hash(string(pwd) == passHash)) return true;
+	
+    return false;
+}
+
 int showMenu(int option) {
     switch (option) {
         case 1: { // Admin Panel Menu
@@ -72,7 +118,7 @@ int showMenu(int option) {
             cout << char(221) << "\t" << "3. Delete User" << "\t\t\t\t\t\t\t\t" << char(222) << endl;
             cout << char(221) << "\t" << "4. Delete Users (More than one)" << "\t\t\t\t\t\t" << char(222) << endl;
             cout << char(221) << "\t" << "5. View Users" << "\t\t\t\t\t\t\t\t" << char(222) << endl;
-            cout << char(221) << "\t" << "6. Change Password" << "\t\t\t\t\t\t\t\t" << char(222) << endl;
+            cout << char(221) << "\t" << "6. Change Password" << "\t\t\t\t\t\t\t" << char(222) << endl;
             cout << char(221) << string(77, ' ') << char(222) << endl;
             cout << char(221) << "\t" << "0. Exit" << "\t\t\t\t\t\t\t\t\t" << char(222) << endl;
             cout << char(221) << string(77, ' ') << char(222) << endl;
@@ -114,14 +160,25 @@ int getChoise(int min, int max) {
 }
 
 void adminMenu() {
-    showMenu(1);
+    int choise;
+    while(true) {
+        choise = showMenu(1);
+        if (choise == 0 ) break;
+        switch (choise) {
+        case 1:
+            admin.addUser();
+            break;
+        case 2:
+            standard();
+            break;
+        }
+    }
 }
 
 void standard() {
     cout << "NOT AVAILABLE YET";
     system("pause");
 }
-
 
 void createFolders() {
     mkdir("Users");
