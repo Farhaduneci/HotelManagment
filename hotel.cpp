@@ -127,7 +127,7 @@ int showMenu(int option) {
             cout << char(221) << string(77, ' ') << char(222) << endl;
             cout << char(221) << string(77, ' ') << char(222) << endl;
             cout << string(79, char(254)) << endl;
-            return getChoise(0, 2);
+            return getChoise(0, 6);
         }
         break;
     
@@ -171,8 +171,8 @@ void adminMenu() {
         case 1:
             admin.addUser();
             break;
-        case 2:
-            
+        case 3:
+            admin.deleteUser();
             break;
         }
     }
