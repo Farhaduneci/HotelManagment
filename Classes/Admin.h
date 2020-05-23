@@ -39,6 +39,10 @@ public:
         return false;
     }
 
+    bool deleteUser() {
+        
+    }
+
     stringstream askInfo() {
         string first, last, nCode, bDay;
         stringstream info;

@@ -1,16 +1,18 @@
-#include <iostream.h>
-#include <fstream>
+#include <iostream> // Input / Output
+#include <fstream> // File Input / Output
 #include <stdio.h> // Password Input
-#include <string>
-#include <windows.h>
-#include <functional>
-#include <io.h>
-#include <limits>
-#include "./Classes/User.h"
-#include "./Classes/Admin.h"
+#include <conio.h> // Password getch function
+#include <string> // Using string
+#include <windows.h> // Using system commands
+#include <functional> // Using hash function
+#include <io.h> // Making folders via mkdir()
+#include <limits> // Using 
+#include "./Classes/User.h" // User class
+#include "./Classes/Admin.h" // Admin class => Extends User
 
 using namespace std;
 
+// Fucntions decolarations
 int showMenu(int);
 int getChoise(int, int);
 void adminMenu();
@@ -40,18 +42,18 @@ Admin admin("Farhad", "Uneci", "0000000000", "19/03/79", true);
 int main() {
     // Centralizing Console
     MoveWindow(hWnd, NewWidth, NewHeight, WindowWidth, WindowHeight, TRUE);
-
-    // Create Folders
-    createFolders();
-
-    // Save Admin Info
-    admin.saveToFile();
     
     if (!checkPass()) {
         cout << "PASSWORD IS WRONG, TRY AGAIN, APP WILL CLOSE..." << endl;
         system("pause");
         exit(10);
     }
+
+    // Create Folders
+    createFolders();
+
+    // Save Admin Info
+    admin.saveToFile();
 
     int choise;
     while(true) {
@@ -97,10 +99,11 @@ bool checkPass() {
 		}
 	}
 
-	string passHash;
-    hash<string> hash;
-    ifstream passFile("pass.pwd"); getline (passFile, passHash); passFile.close();
-    if(hash(string(pwd) == passHash)) return true;
+    hash<string> str_hash;
+    string input = string(pwd); string adminPass;
+    ifstream passFile("pass.pwd"); getline (passFile, adminPass); passFile.close();
+    string inputHash = to_string((unsigned int)str_hash(input));
+    if(inputHash == adminPass) return true;
 	
     return false;
 }
@@ -169,7 +172,7 @@ void adminMenu() {
             admin.addUser();
             break;
         case 2:
-            standard();
+            
             break;
         }
     }
