@@ -172,7 +172,10 @@ void adminMenu() {
             admin.addUser();
             break;
         case 3:
-            admin.deleteUser();
+            admin.deleteUser(0, ""); // WE NEED TWO
+            break;
+        case 4: 
+            admin.groupDelete();
             break;
         }
     }

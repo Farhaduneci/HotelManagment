@@ -39,41 +39,68 @@ public:
         return false;
     }
 
-    bool deleteUser() {
-        string nCode;
-        stringstream info = askInfo(1);
-        info >> nCode;
-        if (!userExist(nCode)) {
-            cout << "User does not exist, "; system("pause");
-            return false;
+    bool deleteUser(int option, string code) {
+        char path[] = "./Users/";
+        string deleteFile;
+        if (option == 0) {
+            string nCode;
+            stringstream info = askInfo(1);
+            info >> nCode; deleteFile = nCode;
+            if (!userExist(nCode)) {
+                cout << "User does not exist, "; system("pause");
+                return false;
+            }
+            string nCodeCopy = nCode;
+            string fileName = nCodeCopy.append(".user");
+            char fileNameChar[] = ""; strcpy(fileNameChar, fileName.c_str()); // Make File name a char array
+            strcat(path, fileNameChar); // Make the full path
+        } else {
+            deleteFile = code;
+            string fileName = code.append(".user");
+            char fileNameChar[] = ""; strcpy(fileNameChar, fileName.c_str()); // Make File name a char array
+            strcat(path, fileNameChar);
         }
-        string nCodeCopy = nCode;
-        string fileName = nCodeCopy.append(".user");
-        char fileNameChar[] = ""; strcpy(fileNameChar, fileName.c_str()); // Make File name a char array
-        char path[] = "./Users/"; strcat(path, fileNameChar); // Make the full path
         if( remove( path ) != 0 ) { // Remove the file
-            perror( "Error deleting user" ); system("pause");
-        } else { puts( "User successfully deleted" ); deleteFromUsersFile(nCode); ("pause"); }
+                perror( "Error deleting user" ); system("pause");
+        } else { 
+            puts( "User successfully deleted" ); 
+            deleteFromUsersFile(deleteFile); users.clear(); loadUsers(); // Update Users List
+        }
         return true;
     }
 
+    void groupDelete() {
+        stringstream codes = askInfo(2);
+        string code;
+        while(getline(codes, code, ' ')) deleteUser(1, code); // Delete each code in mode 1
+    }
+
     stringstream askInfo(int option) {
-        string first, last, nCode, bDay;
-        stringstream info;
         switch (option) {
-        case 1: // Delete User
-            cout << "Enter Natinal Code: "; cin >> nCode; info << nCode;
-            break;
-        
+        case 1: {// Delete User
+            string code;
+            cout << "Enter Natinal Code: "; cin >> code; return stringstream(code);
+        }
+        break;
+        case 2: {
+            cout << "Enter Natunal Codes, Seperate by space: ";
+            string input;
+            cin.ignore();
+            getline(cin, input);
+            return stringstream(input);
+        }
+        break;
         default: {
+            string first, last, nCode, bDay;
+            stringstream info;
             cout << "Enter First name: "; cin >> first; info << first;
             cout << "Enter Last name: "; cin >> last; info << ' ' << last;
             cout << "Enter Natinal code: "; cin >> nCode; info << ' ' << nCode;
             cout << "Enter Birth day (1/1/90): "; cin >> bDay; info << ' ' << bDay;
+            return info;
         }
         break;
         }
-        return info;
     }
 
     bool userExist(string nCode) {
@@ -118,6 +145,5 @@ public:
             writeNewData << newData << endl;
         }
         writeNewData.close();
-        system("pause");
     }
 };
