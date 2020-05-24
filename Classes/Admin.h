@@ -50,11 +50,10 @@ public:
                 cout << "User does not exist, "; system("pause");
                 return false;
             }
-            string nCodeCopy = nCode;
-            string fileName = nCodeCopy.append(".user");
+            string fileName = nCode.append(".user");
             char fileNameChar[] = ""; strcpy(fileNameChar, fileName.c_str()); // Make File name a char array
             strcat(path, fileNameChar); // Make the full path
-        } else {
+        } else if (option == 1) {
             deleteFile = code;
             string fileName = code.append(".user");
             char fileNameChar[] = ""; strcpy(fileNameChar, fileName.c_str()); // Make File name a char array
