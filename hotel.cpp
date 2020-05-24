@@ -19,6 +19,7 @@ void adminMenu();
 void standard();
 void createFolders();
 bool checkPass();
+void changePass();
 
 /***********************- POSITIONNING THE CONSOLE WINDOW -*******************************/
 //Finding the user's screen resolution
@@ -108,6 +109,24 @@ bool checkPass() {
     return false;
 }
 
+void changePass() {
+    system("CLS");
+    string newPass;
+    hash<string> str_hash;
+    cout << "Enter new password: "; cin >> newPass;
+    string newPassHash = to_string((unsigned int)str_hash(newPass));
+    ofstream changePassStream("pass.pwd");
+    if (changePassStream.is_open())  {
+        changePassStream << newPassHash;
+        changePassStream.close();
+        cout << "Password changed successfuly";
+        system("pause");
+        return;
+    }
+    cout << "Something went wrong call the developer please...";
+    system("pause");
+}
+
 int showMenu(int option) {
     switch (option) {
         case 1: { // Admin Panel Menu
@@ -176,6 +195,12 @@ void adminMenu() {
             break;
         case 4: 
             admin.groupDelete();
+            break;
+        case 6:
+            changePass();
+            break;
+        case 5:
+            admin.viewAllUsers();
             break;
         }
     }

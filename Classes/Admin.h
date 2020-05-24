@@ -103,6 +103,27 @@ public:
         }
     }
 
+    void viewAllUsers() {
+        for (string nCode: users) {
+            string fileName = nCode.append(".user");
+            string path = "./Users/";
+            ifstream readUserFileStream(path.append(fileName));
+            if (readUserFileStream.is_open()) {
+                string line;
+                while (getline (readUserFileStream, line)) {
+                    cout << line << endl;
+                }
+            } else {
+                cout << "Something went wrong opening the file...";
+                system("pause");
+                return;
+            }
+            readUserFileStream.close();
+            cout << endl << string(50, '=') << endl;
+        }
+        system("pause");
+    }
+
     bool userExist(string nCode) {
         for (string userCode: users) {
             if (userCode == nCode)
