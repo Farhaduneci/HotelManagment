@@ -57,7 +57,7 @@ public:
             deleteFile = code;
             string fileName = code.append(".user");
             char fileNameChar[] = ""; strcpy(fileNameChar, fileName.c_str()); // Make File name a char array
-            strcat(path, fileNameChar);
+            strcat(path, fileNameChar); cout << "PATH TO DELETE: " << path << endl;
         }
         if( remove( path ) != 0 ) { // Remove the file
                 perror( "Error deleting user" ); system("pause");
