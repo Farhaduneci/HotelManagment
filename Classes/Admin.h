@@ -40,7 +40,7 @@ public:
     }
 
     bool deleteUser(int option, string code) {
-        char path[] = "./Users/";
+        char path[100] = "./Users/";
         string deleteFile;
         if (option == 0) {
             string nCode;
@@ -51,12 +51,12 @@ public:
                 return false;
             }
             string fileName = nCode.append(".user");
-            char fileNameChar[] = ""; strcpy(fileNameChar, fileName.c_str()); // Make File name a char array
+            char fileNameChar[100] = ""; strcpy(fileNameChar, fileName.c_str()); // Make File name a char array
             strcat(path, fileNameChar); // Make the full path
         } else if (option == 1) {
             deleteFile = code;
             string fileName = code.append(".user");
-            char fileNameChar[] = ""; strcpy(fileNameChar, fileName.c_str()); // Make File name a char array
+            char fileNameChar[100] = ""; strcpy(fileNameChar, fileName.c_str()); // Make File name a char array
             strcat(path, fileNameChar); cout << "PATH TO DELETE: " << path << endl;
         }
         if( remove( path ) != 0 ) { // Remove the file
